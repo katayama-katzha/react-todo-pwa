@@ -33,18 +33,24 @@ const signInWithGoogle = () => {
     .then((result) => {
       // This gives you a Google Access Token. You can use it to access the Google API.
       const credential = GoogleAuthProvider.credentialFromResult(result);
+      // eslint-disable-next-line
       const token = credential.accessToken;
       // The signed-in user info.
+      // eslint-disable-next-line
       const user = result.user;
       // IdP data available using getAdditionalUserInfo(result)
       // ...
     }).catch((error) => {
       // Handle Errors here.
+      // eslint-disable-next-line
       const errorCode = error.code;
+      // eslint-disable-next-line
       const errorMessage = error.message;
       // The email of the user's account used.
+      // eslint-disable-next-line
       const email = error.customData.email;
       // The AuthCredential type that was used.
+      // eslint-disable-next-line
       const credential = GoogleAuthProvider.credentialFromError(error);
       // ...
     });

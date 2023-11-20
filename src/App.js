@@ -1,14 +1,15 @@
 import React from 'react';
-import logo from './logo.svg';
+import { AuthProvider } from './providers/AuthProvider';
 import './App.css';
 import './service/firebase';
 import Header from './components/Header';
 
 function App() {
   return (
-    <div className="App">
+    <AuthProvider>
       <Header />
-    </div>
+    </AuthProvider>
+
   );
 }
 
