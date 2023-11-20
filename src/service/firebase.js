@@ -56,7 +56,18 @@ const signInWithGoogle = () => {
     });
 }
 
+const logOut = () => {
+    auth.signOut()
+    .then(() => {
+      console.log("logged out");
+      document.location.reload();
+    })
+    .catch((error) => {
+      console.log(error.message);
+    });
+};
+
 
 
 // 必要に応じて、これらのインスタンスをエクスポートして他の部分で使用
-export { auth, db ,signInWithGoogle};
+export { auth, db ,signInWithGoogle,logOut};
