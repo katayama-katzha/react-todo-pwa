@@ -1,7 +1,7 @@
-import React,{useState,useEffect,useContext} from "react";
+import React,{useState,useEffect,useContext,useCallback} from "react";
 import * as Api from "../service/api";
 import dig from 'object-dig';
-import { signInWithGoogle,logOut } from "../service/firebase";
+import { signInWithGoogle } from "../service/firebase";
 import { AuthContext} from "../providers/AuthProvider";
 import ToDoList from "./ToDoList";
 
@@ -9,17 +9,16 @@ const Dashboard = () => {
     const currentUser = useContext(AuthContext);
     const [inputName,setInputName] = useState("");
     const [todos, setTodos] = useState([]);
-    useEffect(()=>{
-        // Todo一覧を取得
-        fetchToDo();
-    }, [currentUser]);
-
-    const fetchToDo = async() => {
-        if( dig(currentUser, 'currentUser', 'uid') ){
-          const data = await Api.initGet(currentUser.currentUser.uid);
-          await setTodos(data);
+    const fetchToDo = useCallback(async () => {
+        if (dig(currentUser, 'currentUser', 'uid')) {
+            const data = await Api.initGet(currentUser.currentUser.uid);
+            await setTodos(data);
         }
-    };
+    }, [currentUser]); // 依存関係配列にcurrentUserを追加
+
+    useEffect(() => {
+        fetchToDo();
+    }, [fetchToDo]); // useEffectの依存関係配列を更新
 
     const formRender = () => {
         let dom
