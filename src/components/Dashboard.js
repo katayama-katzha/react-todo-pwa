@@ -3,10 +3,24 @@ import * as Api from "../service/api";
 import dig from 'object-dig';
 import { signInWithGoogle,logOut } from "../service/firebase";
 import { AuthContext} from "../providers/AuthProvider";
+import ToDoList from "./ToDoList";
 
 const Dashboard = () => {
     const currentUser = useContext(AuthContext);
     const [inputName,setInputName] = useState("");
+    const [todos, setTodos] = useState([]);
+    useEffect(()=>{
+        // Todo一覧を取得
+        fetchToDo();
+    }, [currentUser]);
+
+    const fetchToDo = async() => {
+        if( dig(currentUser, 'currentUser', 'uid') ){
+          const data = await Api.initGet(currentUser.currentUser.uid);
+          await setTodos(data);
+        }
+    };
+
     const formRender = () => {
         let dom
         if(dig(currentUser,'currentUser','uid')){
@@ -26,6 +40,7 @@ const Dashboard = () => {
     return(
         <div>
            {formRender()}
+           <ToDoList todos={todos} />
         </div>
     )
 };
